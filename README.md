@@ -48,12 +48,29 @@ utilizamos un puntero que permita leer y escribir en el archivo de forma binaria
         
 	FILE *new_fd;
 	new_fd = fopen(archivo, "wb+");
+	
+## Movimiento entre vecindades 
 
 Procedemos a aplicar la reglas para un autómata celular de una dimensión mas específicamente a interactuar con sus vecindades , para cada byte del buffer nos desplazaremos  dos vecindades hacia la izquierda y una vecindad hacia la derecha,pero si hacemos esto de forma directa se desbordaría el buffer, por ejemplo
          
+	|**BUFFER**|
 	+----------+ 
 	| 1 | 2 |3 |
-	| 4 | 5 |6 |
+	| 4 | 5 |6 |     ---> esquema grafico del buffer 
 	| 7 | 8 |9 |
 	+----------+
-supongamos que ese es nuestro buffer el cual tiene forma de matix, si  nos colocamos en la posición [0] esta seria donde se encuentra el numero 1 , si queremos desplazarnos 2 veces hacia la izquierda se desbordaría ya que a la izquierda no hay mas valores, entonces usamos un truco para evitar esto, si a la longitud del buffer le restamos 1, seria 9 -1 = 8, sabiendo que los vectores empiezan a contar desde la posición cero la posición 8 le correspondería al valor 9, osea que de la posición cero de desplazo a hacia la izquierda una vecindad, ya sabiendo este truco solo vasta con identificar que posiciones se podrían desbordar y aplicarles dicho truco, la posiciones serian la posición [0] , [1] y la ultima posición del buffer    
+supongamos que ese es nuestro buffer el cual tiene forma de matix, si  nos colocamos en la posición [0] esta seria donde se encuentra el numero 1 , si queremos desplazarnos 2 veces hacia la izquierda se desbordaría ya que a la izquierda no hay mas valores, entonces usamos un truco para evitar esto, si a la longitud del buffer le restamos 1, seria 9 -1 = 8, sabiendo que los vectores empiezan a contar desde la posición cero la posición 8 le correspondería al valor 9, osea que de la posición cero de desplazo a hacia la izquierda una vecindad, ya sabiendo este truco solo vasta con identificar que posiciones se podrían desbordar y aplicarles dicho truco, la posiciones serian la posición [0] , [1] , y la ultima posocion, 
+
+## Cifrar usando el movimiento de las vecindades
+Ahora que sabemos como hacer los movimientos entre las vecindades usaremos estos movimientos para cifrar el archivo, haciendo que cada posición haga un XOR con la vecindad que tiene a su derecha, y a ese resultado se le hará otro XOR con el valor resultante de la operación OR entre las dos vecindades hacia la izquierda  
+        
+          >>>>>>>>>>>> ejemplo ilustrativo >>>>>>>>>>>>	   
+	   
+	   1) ^   ----> simboliza la operación XOR
+	   2) |   ----> simboliza la operación OR
+	   
+	   buffer[i] ^ buffer[i +1]  ^ ( buffer[i-2] | buffer[i-1]
+	 
+   
+           
+   
