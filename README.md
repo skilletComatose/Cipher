@@ -25,27 +25,27 @@ La cual llamamos en el main de la siguiente forma : file_len = fsize(archivo);
 una vez tenido el tamaño del archivo, debemos leerlo en forma de bytes, ya que modificando estos  los cifraremos,
 declaramos tres variables para obtener nustros buffers, 
            
-     char *buffer_old; 
-	   char *buffer_new; 
-	   char *buffer_aux; 
-     
-     buffer_old = malloc(file_len);   
-     buffer_new = malloc(file_len);
-     buffer_aux = malloc(file_len);
+        char* file_bytes;
+	char* file_encrypted_bytes;
+	char* bytes_random;
+	
+	file_bytes = malloc(file_len + 1);
+	file_encrypted_bytes = malloc(file_len + 1);
+	bytes_random = malloc(file_len + 1);
 	 
  Estos buffers serán nuestros vectores de caracteres donde almacenaremos los bytes del archivo
- los declaramos como apuntadores para que utilicen memoria dinámica ya que los vectores tienen un limite de almacenamiento, lo cual       nos generaría problemas cuando quisiéramos encriptar un archivo con una alta longitud por ejemplo una canción o un video, al hacerlo asi podemos reservar espacio de memoria y evitar errores  
+ los declaramos como apuntadores para que utilicen memoria dinámica ya que los vectores tienen un limite de almacenamiento, lo cual       nos generaría problemas cuando quisiéramos encriptar un archivo con una alta longitud por ejemplo una canción o un video, al hacerlo asi podemos reservar espacio de memoria y evitar errores. file_bytes es donde se almacenan los bytes del archivo, file_encrypted_bytes es el buffer donde se almacenaran los bytes encriptados,  bytes_random es el buffer auxiliar que con el que haremos las modificaciones a los bytes del archivo
 
 
-Ahora procedemos a almacenar los bytes del archivo en nuestro buffer llamado buffer_old;
-para ellos hacemos un ciclo infinito que recorrerá  cada byte del archivo y a su vez lo ira almacenando en la posición I de nuestro buffer_old, con una validación que cierre el ciclo cuando de llegue al ultimo byte de este 
+Ahora procedemos a almacenar los bytes del archivo en nuestro buffer llamado file_bytes
+para ellos hacemos un ciclo infinito que recorrerá  cada byte del archivo y a su vez lo ira almacenando en la posición I de nuestro file_bytes , con una validación que cierre el ciclo cuando de llegue al ultimo byte de este 
 
-      	int i = 0;
-	while(1) {
-      		buffer_old[i] = fgetc(old_fd);
-      		if (feof(old_fd)) {
-         		break ;
-      		}
+	int i = 0;
+	while (1) {
+		file_bytes[i] = fgetc(file_fd);
+		if (feof(file_fd)) {
+			break;
+		}
 		i++;
 	}
 
@@ -91,15 +91,10 @@ Las operaciones mostradas anterior mente (XOR y OR) no se harán con el contendi
 ## C) Implementación del cifrado por medio de vecindades 
 Teniendo el cuenta lo mencionado en el inciso A y B entonces nuestro código nos queda : 
          
-	 if (file_len > 0) {
 		
-		 for (int i=0; i<file_len; i++) buffer_aux[i] = i;   --> llenado arbitrario del buffer auxiliar 
-         
-	  
-      buffer_new[0] = buffer_old[0] ^ buffer_aux[1] ^ (buffer_aux[file_len-2] | buffer_aux[file_len-1]);
-      buffer_new[1] = buffer_old[1] ^ buffer_aux[2] ^ (buffer_aux[file_len-1] | buffer_aux[0]);
-      buffer_new[file_len-1] = buffer_old[file_len-1] ^ buffer_aux[0] ^ ( buffer_aux[file_len-3] | buffer_aux[file_len-2] );    
+		file_encrypted_bytes[0] = file_bytes[0] ^ bytes_random[1] ^ (bytes_random[file_len - 2] | bytes_random[file_len - 1]);
+		file_encrypted_bytes[1] = file_bytes[1] ^ bytes_random[2] ^ (bytes_random[file_len - 1] | bytes_random[0]);
+		file_encrypted_bytes[file_len - 1] = file_bytes[file_len - 1] ^ bytes_random[0] ^ (bytes_random[file_len - 3] | bytes_random[file_len - 2]);
 
-      for (int i = 2; i < file_len - 1 ; i++){
-	 		buffer_new[i] = buffer_old[i] ^ buffer_aux[i+1] ^ ( buffer_aux[i-2] | buffer_aux[i-1]);
-          }     
+		for (int i = 2; i < file_len - 1; i++)
+			file_encrypted_bytes[i] = file_bytes[i] ^ bytes_random[i + 1] ^ (bytes_random[i - 2] | bytes_random[i - 1]);
