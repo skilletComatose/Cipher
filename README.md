@@ -1,5 +1,5 @@
 # cipher
-### Cifraremos  los archivos aplicando la regla de los autómatas celulares a los bytes del archivo
+### Cifraremos  los archivos aplicando una regla de los autómatas celulares a los bytes del archivo
  
  
 Primero debemos saber cual es la longitud de bytes del archivo o el tamaño del buffer donde lo almacenaremos, para ello usamos la funcion 
