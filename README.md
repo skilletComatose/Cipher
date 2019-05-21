@@ -2,7 +2,7 @@
 ### Cifraremos  los archivos aplicando la regla de los autómatas celulares a los bytes del archivo
  
  
-Primero debemos daber cual es la longitud de bytes del archivo o el tamaño del buffer donde lo almacenaremos, para ello usamos la funcion 
+Primero debemos saber cual es la longitud de bytes del archivo o el tamaño del buffer donde lo almacenaremos, para ello usamos la funcion 
    
     off_t fsize(const char *filename) {
     struct stat st; 
@@ -28,7 +28,7 @@ declaramos tres variables para obtener nustros buffers,
      buffer_aux = malloc(file_len);
 	 
  Estos buffers serán nuestros vectores de caracteres donde almacenaremos los bytes del archivo
- los declaramos como apuntadores para que utilicen memoria dinámica ya que los vectores tienen un limite de almacenamiento, lo cual       nos generaría problemas cuando quisiéramos encriptar un archivo con una alta longitud por ejemplo una canción o un video, al hacerlo asi podemos reservar espacio de memoria y evitar errores  
+ los declaramos como apuntadores para que utilicen memoria dinámica ya que los vectores tienen un limite de almacenamiento, lo cual nos generaría problemas cuando quisiéramos encriptar un archivo con una alta longitud por ejemplo una canción o un video, al hacerlo asi podemos reservar espacio de memoria y evitar  ese tipo de errores.  
 
 
 Ahora procedemos a almacenar los bytes del archivo en nuestro buffer llamado buffer_old;
