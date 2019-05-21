@@ -76,14 +76,15 @@ supongamos que ese es nuestro buffer, el cual tiene forma de matix, si  nos colo
 
 Ahora que sabemos como hacer los movimientos entre las vecindades usaremos estos movimientos para cifrar el archivo, haciendo que cada posición haga un XOR con la vecindad que tiene a su derecha, y a ese resultado se le hará otro XOR con el valor resultante de la operación OR entre las dos vecindades hacia la izquierda  
         
-          +>>>>>>>>>>>>>>>>>> ejemplo ilustrativo <<<<<<<<<<<<<<<<<<<<<+	   
-	  | 	                                                       |
-	  |  1) ^   ----> simboliza la operación XOR                   |
-	  |  2) |   ----> simboliza la operación OR                    |
-	  |                                                            |
-	  |  buffer[i] ^ buffer[i +1]  ^ ( buffer[i-2] | buffer[i-1] ) |  
-	  |                                                            |
-	  +>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>+
+          	   
+	   +>>>>>>>>>>>>>>>>>>> ejemplo ilustrativo <<<<<<<<<<<<<<<<<<<<<+
+	   | 	                                                         |
+	   |   1) ^   ----> simboliza la operación XOR                   |
+	   |   2) |   ----> simboliza la operación OR                    |
+	   |                                                             |
+	   |   buffer[i] ^ buffer[i +1]  ^ ( buffer[i-2] | buffer[i-1] ) |  
+	   |                                                             |
+	   +>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>+
 	 
 Las operaciones mostradas anterior mente (XOR y OR) no se harán con el contendido del mismo buffer_old(el que tiene guardado los bytes del archivo)  sino que   utilizaremos un buffer auxiliar con la misma londitud de nuestro buffer_old  , y lo llenaremos con valores arbitrarios,  y estos valores serán los que utilizaremos para modificar mediante la operaciones lógicas antes mencionadas los bytes almacenados en buffer_old
 
