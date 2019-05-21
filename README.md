@@ -71,7 +71,7 @@ Ahora que sabemos como hacer los movimientos entre las vecindades usaremos estos
 	   
 	   buffer[i] ^ buffer[i +1]  ^ ( buffer[i-2] | buffer[i-1] )
 	 
-Las operaciones mostradas anterior mente (XOR y OR) no se harán con el contendido del mismo buffer_old(el que tiene guardado los bytes del archivo)  sino que   utilizaremos un buffer auxiliar con la misma londitud de nuestro buffer_old  , y lo llenaremos con valores arbitrarios,  y estos valores serán los que utilizaremos para modificar mediante la operaciones lógicas antes mencionadas los bytes almacenados en buffer_old
+Las operaciones mostradas anterior mente (XOR y OR) no se harán con el contendido del mismo buffer_old(el que tiene guardado los bytes del archivo)  sino que   utilizaremos un buffer auxiliar con la misma londitud de nuestro buffer_old  , y lo llenaremos con valores arbitrarios,  y estos valores serán los que utilizaremos para modificar mediante la operaciones lógicas antes mencionadas a los bytes almacenados en buffer_old
 
 ## C) Implementación del cifrado por medio de vecindades 
 Teniendo el cuenta lo mencionado en el inciso A y B entonces nuestro código nos queda : 
