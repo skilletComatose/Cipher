@@ -43,3 +43,17 @@ para ellos hacemos un ciclo infinito que recorrerá  cada byte del archivo y a s
 		i++;
 	}
 
+
+utilizamos un puntero que permita leer y escribir en el archivo de forma binaria 
+        
+	FILE *new_fd;
+	new_fd = fopen(archivo, "wb+");
+
+Procedemos a aplicar la reglas para un autómata celular de una dimensión mas específicamente a interactuar con sus vecindades , para cada byte del buffer nos desplazaremos  dos vecindades hacia la izquierda y una vecindad hacia la derecha,pero si hacemos esto de forma directa se desbordaría el buffer, por ejemplo
+         
+	+----------+ 
+	| 1 | 2 |3 |
+	| 4 | 5 |6 |
+	| 7 | 8 |9 |
+	+----------+
+supongamos que ese es nuestro buffer el cual tiene forma de matix, si  nos colocamos en la posición [0] esta seria donde se encuentra el numero 1 , si queremos desplazarnos 2 veces hacia la izquierda se desbordaría ya que a la izquierda no hay mas valores, entonces usamos un truco para evitar esto, si a la longitud del buffer le restamos 1, seria 9 -1 = 8, sabiendo que los vectores empiezan a contar desde la posición cero la posición 8 le correspondería al valor 9, osea que de la posición cero de desplazo a hacia la izquierda una vecindad, ya sabiendo este truco solo vasta con identificar que posiciones se podrían desbordar y aplicarles dicho truco, la posiciones serian la posición [0] , [1] y la ultima posición del buffer    
